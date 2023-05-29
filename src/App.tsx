@@ -1,24 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { GlobalStyle } from "./modules/themes/globalStyle";
+import { MainPage } from "./pages/MainPage";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Layout } from "./modules/components/Layout";
+import { SearchResult } from "./pages/SearchResultPage";
+import { ModalProvider } from "styled-react-modal";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <ModalProvider>
+        <BrowserRouter>
+          <GlobalStyle />
+          <Layout>
+            <Switch>
+              <Route path="/movies" children={<MainPage />} />
+              <Route path="/search" children={<SearchResult />} />
+            </Switch>
+          </Layout>
+        </BrowserRouter>
+      </ModalProvider>
+    </QueryClientProvider>
   );
 }
 
